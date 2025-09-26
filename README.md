@@ -6,7 +6,7 @@ GET:
 Get All Cafes
 http://127.0.0.1:5000/all?
 Will return every cafe in the database as JSON
-all_cafes_postman.png
+/all_cafes_postman.png
 
 Get Random Cafe
 http://127.0.0.1:5000/random?
