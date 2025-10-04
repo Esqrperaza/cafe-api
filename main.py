@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 
 
-# CREATE DB
+# Create database
 class Base(DeclarativeBase):
     pass
 
@@ -20,7 +20,7 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 
-# Cafe TABLE Configuration
+# Cafe Database Table Configuration
 class Cafe(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
@@ -56,7 +56,7 @@ def get_random_cafe():
         return jsonify(cafe=random_cafe.to_dict())
 
 
-# HTTP GET - Read Record
+# Read All Records
 @app.route("/all", methods=["GET"])
 def get_all_cafes():
     if request.method == "GET":
@@ -65,6 +65,7 @@ def get_all_cafes():
         return jsonify(cafe=[cafe.to_dict() for cafe in all_cafes])
 
 
+# Search for Cafe using location
 @app.route("/search", methods=["GET"])
 def search_cafes():
     if request.method == "GET":
@@ -77,7 +78,7 @@ def search_cafes():
             return jsonify(cafe=[cafe.to_dict() for cafe in all_results])
 
 
-# HTTP POST - Create Record
+# Create New Cafe Data
 @app.route("/add", methods=["POST"])
 def add_new_cafe():
     if request.method == "POST":
@@ -99,7 +100,7 @@ def add_new_cafe():
         return jsonify(response={"success": "New cafe added"})
 
 
-# HTTP PUT/PATCH - Update Record
+# Update Cafe Data
 @app.route("/update-price/<cafe_id>", methods=["PATCH"])
 def update_cafe(cafe_id):
     if request.method == "PATCH":
@@ -113,7 +114,7 @@ def update_cafe(cafe_id):
             return jsonify(error={"Coffee shop not found in database."})
 
 
-# HTTP DELETE - Delete Record
+# Delete Cafe Data with valid token
 @app.route("/report-close/<int:cafe_id>", methods=["DELETE"])
 def delete(cafe_id):
     cafe = db.session.execute(
